@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<head>
+  <meta lang="en US" />
+  <meta name="About me" , description="Just stuff about me" />
+  <meta charset="UTF 8" />
+  <link rel="stylesheet" , href="main.css" />
+</head>
+<body>
+  <h1>About the writer</h1>
+  <p><span class = "paragraph-1">
+    The writer is a graduate student at the institute. He knows who you are and
+    what you like and he will not find you out in the large blue universe.</span>
+  </p>
+  <ul>
+    <li>
+      <a href="mailto:abkun@email.com">my email address</a>
+    </li>
+    <li>
+      <a href="+919778234651"> my phone number</a>
+    </li>
+  </ul>
+  <p>Or please fill out this form here.</p>
+  <form action="https:/httpbin.org/get/" method="get">
+    <p>
+      <label for="firstName">First Name:</label>
+      <input
+        type="text"
+        name="firstName"
+        id="firstName"
+        required
+        placeholder="Jane"
+      />
+    </p>
+    <p>
+      <label for="lastName">Last Name:</label>
+      <input
+        type="text"
+        name="lastName"
+        id="lastName"
+        required
+        placeholder="Doe"
+      />
+    </p>
+    <p>
+      <label for="email">Email: &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        required
+        placeholder="random@gmail.com"
+      />
+    </p>
+    <p>
+      <button id="buttonForForm">Submit</button>
+    </p>
+  </form>
+  <hr>
+  <p>
+    I would also like to know why you are here. <br />
+    Check all that apply.
+  </p>
+  <p>
+    <label for="invitedByMe"> You were invited by me</label>
+  <input type="checkbox" name="invitedByMe" id="invitedByMe"></input> 
+</p>
+ <p><label for="invitedByKatie"> You were invited by Katie</label>
+  <input type="checkbox" name="invitedByKatie" id="invitedByKatie"></input> </p>
+  <p><label for="insta"> Instagram post</label>
+  <input type="checkbox" name="insta" id="insta"></input> </p>
+  <p><label for="unlikelyRandom">Why</label>
+  <input type="checkbox" name="unlikelyRandom" id="unlikelyRandom"></input></p>
+  <br>
+  <button id = "buttonForCheckBox">Submit</button>
+  <script src="index.js"></script>
+</body>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minesweeper</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: black;
+    margin: 0;
+  }
+  canvas {
+    border: 1px solid blue;
+  }
+  #resetButton {
+    display: none; /* Initially hidden */
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    background-color: blue;
+    border: none;
+  }
+</style>
+</head>
+<body>
+<canvas id="minesweeperCanvas" width="400" height="400"></canvas>
+<button id="resetButton">Reset</button>
+<script>
+const GRID_SIZE = 10;
+const CELL_SIZE = 40;
+const MINE_COUNT = 20;
+const canvas = document.getElementById('minesweeperCanvas');
+const ctx = canvas.getContext('2d');
+const resetButton = document.getElementById('resetButton');
+canvas.width = GRID_SIZE * CELL_SIZE;
+canvas.height = GRID_SIZE * CELL_SIZE;
+
+class Cell {
+  constructor() {
+    this.isMine = false;
+    this.revealed = false;
+    this.flagged = false;
+  }
+}
+
+class Game {
+  constructor(ctx) {
+    this.ctx = ctx;
+    this.reset();
+  }
+
+  placeMines() {
+    let minesPlaced = 0;
+    while (minesPlaced < MINE_COUNT) {
+      const x = Math.floor(Math.random() * GRID_SIZE);
+      const y = Math.floor(Math.random() * GRID_SIZE);
+      if (!this.grid[x][y].isMine) {
+        this.grid[x][y].isMine = true;
+        minesPlaced++;
+      }
+    }
+  }
+
+  countAdjacentMines(x, y) {
+    let count = 0;
+    for (let dx = -1; dx <= 1; dx++) {
+      for (let dy = -1; dy <= 1; dy++) {
+        if (dx === 0 && dy === 0) continue;
+        const nx = x + dx, ny = y + dy;
+        if (nx >= 0 && nx < GRID_SIZE && ny >= 0 && ny < GRID_SIZE && this.grid[nx][ny].isMine) {
+          count++;
+        }
+      }
+    }
+    return count;
+  }
+
+  revealCell(x, y) {
+    if (this.gameOver || this.grid[x][y].revealed || this.grid[x][y].flagged) return;
+    this.grid[x][y].revealed = true;
+    if (this.grid[x][y].isMine) {
+      this.endGame();
+    } else {
+      const adjacentMines = this.countAdjacentMines(x, y);
+      if (adjacentMines === 0) {
+        for (let dx = -1; dx <= 1; dx++) {
+          for (let dy = -1; dy <= 1; dy++) {
+            if (dx === 0 && dy === 0) continue;
+            this.revealCell(x + dx, y + dy);
+          }
+        }
+      }
+    }
+  }
+
+  flagCell(x, y) {
+    if (this.gameOver || this.grid[x][y].revealed) return;
+    this.grid[x][y].flagged = !this.grid[x][y].flagged;
+  }
+
+  endGame() {
+    this.gameOver = true;
+    for (const row of this.grid) {
+      for (const cell of row) {
+        if (cell.isMine) cell.revealed = true;
+      }
+    }
+    setTimeout(() => {
+      alert("Game Over! You hit a mine.");
+      resetButton.style.display = 'block'; // Show the reset button
+    }, 10);
+  }
+
+  reset() {
+    this.grid = Array.from({ length: GRID_SIZE }, () => Array.from({ length: GRID_SIZE }, () => new Cell()));
+    this.placeMines();
+    this.gameOver = false;
+    resetButton.style.display = 'none'; // Hide the reset button
+    this.draw();
+  }
+
+  handleMouseClick(x, y, button) {
+    if (this.gameOver) return;
+    const cellX = Math.floor(x / CELL_SIZE);
+    const cellY = Math.floor(y / CELL_SIZE);
+    if (button === 0) { // Left click
+      this.revealCell(cellX, cellY);
+    } else if (button === 2) { // Right click
+      this.flagCell(cellX, cellY);
+    }
+    this.draw();
+  }
+
+  draw() {
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    for (let x = 0; x < GRID_SIZE; x++) {
+      for (let y = 0; y < GRID_SIZE; y++) {
+        const cell = this.grid[x][y];
+        const rectX = x * CELL_SIZE, rectY = y * CELL_SIZE;
+        ctx.fillStyle = cell.revealed ? (cell.isMine ? 'red' : 'blue') : 'grey';
+        ctx.fillRect(rectX, rectY, CELL_SIZE, CELL_SIZE);
+        if (cell.revealed && !cell.isMine) {
+          const count = this.countAdjacentMines(x, y);
+          if (count > 0) {
+            ctx.fillStyle = 'white';
+            ctx.font = '20px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(count.toString(), rectX + CELL_SIZE / 2, rectY + CELL_SIZE / 2);
+          }
+        } else if (cell.flagged) {
+          ctx.fillStyle = 'green';
+          ctx.beginPath();
+          ctx.arc(rectX + CELL_SIZE / 2, rectY + CELL_SIZE / 2, CELL_SIZE / 4, 0, 2 * Math.PI);
+          ctx.fill();
+        }
+        ctx.strokeStyle = 'white';
+        ctx.strokeRect(rectX, rectY, CELL_SIZE, CELL_SIZE);
+      }
+    }
+  }
+}
+
+const game = new Game(ctx);
+
+resetButton.addEventListener('click', () => game.reset());
+
+canvas.oncontextmenu = function(e) {
+    e.preventDefault();
+};
+
+canvas.addEventListener('mousedown', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    game.handleMouseClick(x, y, e.button);
+});
+
+game.draw(); // Draw the initial game state
+</script>
+</body>
+</html>
