@@ -65,7 +65,6 @@
     <div id="sudoku-grid" class="grid"></div>
     <button id="check-btn" class="btn hidden" onclick="checkSolution()">Check Solution</button>
     <div id="message" class=""></div>
-
     <script>
         let solutionGrid = [];
         let userGrid = [];
@@ -104,16 +103,25 @@
             return false;
         }
 
-        function generateGrid() {
-            solutionGrid = Array.from({ length: gridSize }, () => new Array(gridSize).fill(0));
-            solve(solutionGrid);
-            userGrid = solutionGrid.map(inner => inner.slice());
-            removeNumbers();
-            displayGrid();
+       function generateGrid() {
+    solutionGrid = Array.from({ length: gridSize }, () => new Array(gridSize).fill(0));
+    for (let i = 0; i < gridSize; i++) {
+        let row = Math.floor(Math.random() * gridSize);
+        let col = Math.floor(Math.random() * gridSize);
+        let num = Math.ceil(Math.random() * gridSize);
+        if (isSafe(solutionGrid, row, col, num)) {
+            solutionGrid[row][col] = num;
         }
+    }
 
+    solve(solutionGrid);
+    userGrid = solutionGrid.map(inner => inner.slice());
+
+    removeNumbers();
+    displayGrid();
+}
         function removeNumbers() {
-            let attempts = 20; // Remove approximately 20 numbers for medium difficulty
+            let attempts = 20; 
             while (attempts > 0) {
                 let row = Math.floor(Math.random() * gridSize);
                 let col = Math.floor(Math.random() * gridSize);
