@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: purple;
+            color: black;
+        }
+        .grid {
+            display: inline-grid;
+            grid-template-columns: repeat(9, 50px);
+            gap: 1px;
+            padding: 10px;
+            border: 2px solid #000;
+            margin-top: 20px;
+        }
+        .cell {
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            display: inline-block;
+            text-align: center;
+            background-color: #f0f0f0;
+            font-size: 20px;
+            color: black;
+        }
+        input {
+            width: 100%;
+            height: 100%;
+            font-size: 20px;
+            text-align: center;
+            border: none;
+            background-color: #f0f0f0;
+            color: black;
+        }
+        input:focus {
+            outline: none;
+        }
+        .hidden {
+            display: none;
+        }
+        #message {
+            margin-top: 20px;
+            color: white;
+        }
+        .btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Sudoku Game</h2>
+    <div id="sudoku-grid" class="grid"></div>
+    <button id="check-btn" class="btn hidden" onclick="checkSolution()">Check Solution</button>
+    <div id="message" class=""></div>
+
+    <script>
+        // Your JavaScript Sudoku game logic here
+    </script>
+</body>
+</html>
+
+
+    <script>
+        let solutionGrid = [];
+        let userGrid = [];
+        let gridSize = 9; // For simplicity, we're directly going with a 9x9 grid.
+
+        function isSafe(grid, row, col, num) {
+            for (let d = 0; d < gridSize; d++) {
+                if (grid[row][d] == num || grid[d][col] == num) return false;
+            }
+            const sqrt = Math.sqrt(gridSize);
+            const boxRowStart = row - row % sqrt;
+            const boxColStart = col - col % sqrt;
+            for (let r = 0; r < sqrt; r++) {
+                for (let d = 0; d < sqrt; d++) {
+                    if (grid[r + boxRowStart][d + boxColStart] == num) return false;
+                }
+            }
+            return true;
+        }
+
+        function solve(grid, row = 0, col = 0) {
+            if (row == gridSize - 1 && col == gridSize) return true;
+            if (col == gridSize) {
+                row++;
+                col = 0;
+            }
+            if (grid[row][col] != 0) return solve(grid, row, col + 1);
+
+            for (let num = 1; num <= gridSize; num++) {
+                if (isSafe(grid, row, col, num)) {
+                    grid[row][col] = num;
+                    if (solve(grid, row, col + 1)) return true;
+                }
+                grid[row][col] = 0;
+            }
+            return false;
+        }
+
+        function generateGrid() {
+            solutionGrid = Array.from({ length: gridSize }, () => new Array(gridSize).fill(0));
+            solve(solutionGrid);
+            userGrid = solutionGrid.map(inner => inner.slice());
+            removeNumbers();
+            displayGrid();
+        }
+
+        function removeNumbers() {
+            let attempts = 20; // Remove approximately 20 numbers for medium difficulty
+            while (attempts > 0) {
+                let row = Math.floor(Math.random() * gridSize);
+                let col = Math.floor(Math.random() * gridSize);
+                while (userGrid[row][col] == 0) {
+                    row = Math.floor(Math.random() * gridSize);
+                    col = Math.floor(Math.random() * gridSize);
+                }
+                userGrid[row][col] = 0;
+                attempts--;
+            }
+        }
+
+        function displayGrid() {
+            const gridContainer = document.getElementById("sudoku-grid");
+            gridContainer.innerHTML = '';
+            userGrid.forEach((row, rIndex) => {
+                row.forEach((num, cIndex) => {
+                    const inputElem = document.createElement("input");
+                    inputElem.type = "number";
+                    inputElem.className = "cell";
+                    inputElem.value = num ? num : '';
+                    inputElem.max = 9;
+                    inputElem.min = 1;
+                    inputElem.oninput = function() { this.value = this.value.slice(0, 1); };
+                    if(num === 0) inputElem.addEventListener('input', (e) => updateUserGrid(rIndex, cIndex, e.target.value));
+                    else inputElem.disabled = true;
+                    gridContainer.appendChild(inputElem);
+                });
+            });
+            document.getElementById("check-btn").classList.remove("hidden");
+        }
+
+        function updateUserGrid(row, col, value) {
+            userGrid[row][col] = Number(value);
+        }
+
+        function checkSolution() {
+            for (let row = 0; row < gridSize; row++) {
+                for (let col = 0; col < gridSize; col++) {
+                    if (userGrid[row][col] != solutionGrid[row][col]) {
+                        document.getElementById("message").innerText = "Incorrect, try again!";
+                        return;
+                    }
+                }
+            }
+            document.getElementById("message").innerHTML = 'Congratulations! Puzzle solved! <a href="https://example.com/secret-poems">Secret Poems</a>';
+        }
+
+        generateGrid();
+    </script>
+</body>
+</html>
