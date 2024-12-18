@@ -12,17 +12,17 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
             background: #1a1a1a;
             color: white;
             font-family: Arial, sans-serif;
         }
 
-        h1 {
+        h1, h2 {
             font-size: 4rem;
             margin-bottom: 20px;
-            color: #e63946;
+            color: white;
             text-align: center;
+            text-decoration: underline;
         }
 
         .container {
@@ -66,15 +66,10 @@
             }
         }
 
-        .message {
-            font-size: 1.5rem;
-            color: #a8dadc;
-        }
-
         .content {
-            margin-top: 50px;
+            margin-top: 20px;
             font-size: 1.2rem;
-            color: #f1faee;
+            color: white;
             text-align: center;
             max-width: 600px;
         }
@@ -85,10 +80,19 @@
             border: 2px solid #e63946;
             border-radius: 8px;
         }
+
+        a {
+            color: #e63946;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h1>Calico Liminal Spaces</h1>
+    <h1>Calico: Liminal Spaces</h1>
     <div class="container" onclick="playAnimation()">
         <div class="banner">Welcome to the Liminal Space</div>
     </div>
@@ -108,10 +112,10 @@
             </video>
         </p>
         <p>
-            Experience thrilling chase sequences!
+            Experience thrilling chase sequences.
             <br>
             <video controls>
-                <source src="images/run_away.mp4" type="video/mp4">
+                <source src="images/chase_sequence.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </p>
@@ -127,12 +131,16 @@
             </a>
         </p>
         <p>
-            Confront the horror of being trapped!
+            Confront strange ideas.
             <br>
             <video controls>
                 <source src="images/strangeIdeas.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
+        </p>
+        <h2>About the Game</h2>
+        <p>
+            I started working on this sometime in the last quarter of 2024. The plan is to make this into a full VR horror metroidvania that tells a story via the interplay of colors. I plan to release this sometime around 2026. Please watch this very <strong>VERY</strong> early trailer <a href="https://www.youtube.com/watch?v=kErFygX94Lg" target="_blank">here</a>.
         </p>
         <p>
             Please watch the full trailer below:
