@@ -9,17 +9,26 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
             background: #1a1a1a;
             color: white;
             font-family: Arial, sans-serif;
         }
 
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #e63946;
+            text-align: center;
+        }
+
         .container {
             position: relative;
             cursor: pointer;
+            text-align: center;
         }
 
         .banner {
@@ -61,12 +70,28 @@
             font-size: 1.5rem;
             color: #a8dadc;
         }
+
+        .content {
+            margin-top: 50px;
+            font-size: 1.2rem;
+            color: #f1faee;
+            text-align: center;
+            max-width: 600px;
+        }
     </style>
 </head>
 <body>
+    <h1>Calico Liminal Spaces</h1>
     <div class="container" onclick="playAnimation()">
-        <div class="message">Click anywhere to reveal</div>
-        <div class="banner">Calico Liminal Spaces</div>
+        <div class="banner">Welcome to the Liminal Space</div>
+    </div>
+    <div class="content">
+        <p>
+            This is a page dedicated to exploring the surreal and eerie beauty of liminal spaces. From empty hallways to desolate landscapes, liminal spaces offer a glimpse into the transient, the in-between, and the hauntingly unfamiliar.
+        </p>
+        <p>
+            Dive into our world of visual storytelling, haunting narratives, and evocative artwork that capture the essence of these peculiar places.
+        </p>
     </div>
 
     <script>
