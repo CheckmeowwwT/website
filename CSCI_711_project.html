@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D Game Engine</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        h1, h2 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: white;
+            text-align: center;
+            text-decoration: underline;
+        }
+
+        .container {
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .banner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: #e63946;
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            font-size: 2rem;
+            text-align: center;
+            animation: none;
+        }
+
+        .container.active .banner {
+            animation: slide-in 1s forwards;
+        }
+
+        @keyframes slide-in {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -60%) scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .content {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: white;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        video {
+            margin-top: 20px;
+            max-width: 100%;
+            border: 2px solid #e63946;
+            border-radius: 8px;
+        }
+
+        a {
+            color: #e63946;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>A 2D engine focused on raytracing</h1>
+    <div class="container" onclick="playAnimation()">
+        <div class="banner">Check out the lightmaps!</div>
+    </div>
+    <div class="content">
+        <p>
+            WELCOME!
+        </p>
+        <p>
+            This is a 2D engine that trades sprite based lighting for real rays.
+        </p>
+        <p>
+            Here is a quick sample of some very pre alpha gameplay
+            <br>
+            <video controls>
+                <source src="images/2D_engine.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </p>
+        <p>
+            Celeste like platforming 
+            <br>
+            <a href="images/Celeste.png.png" target="_blank">
+                <img src="images/Celeste.png" alt="Shows a Celeste like platfomer" style="margin-top: 20px; max-width: 100%; height: auto; border: 2px solid #e63946; border-radius: 8px;">
+            </a>
+        </p>
+
+          <p>
+            and Inside like horror!
+            <br>
+            <a href="images/Inside.png" target="_blank">
+                <img src="images/Inside.png" alt="Shows a strange corrioor" style="margin-top: 20px; max-width: 100%; height: auto; border: 2px solid #e63946; border-radius: 8px;">
+            </a>
+        </p>
+
+         <p>
+            and try not to die
+            <br>
+            <a href="images/game_over.png" target="_blank">
+                <img src="images/game_over.png" alt="Shows game over" style="margin-top: 20px; max-width: 100%; height: auto; border: 2px solid #e63946; border-radius: 8px;">
+            </a>
+        </p>
+        
+        <h2>About the Game</h2>
+        <p>
+            I started working on this earlier this semester. The plan is to make this into a full 2D ray traced engibe and build a full publishable video game!
+        </p>
+    </div>
+
+    <script>
+        function playAnimation() {
+            const container = document.querySelector('.container');
+            container.classList.add('active');
+        }
+    </script>
+</body>
+</html>
