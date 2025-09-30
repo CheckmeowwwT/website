@@ -17,7 +17,7 @@
     border: 1px solid blue;
   }
   #resetButton {
-    display: none; /* Initially hidden */
+    display: none; 
     margin-top: 20px;
     padding: 10px;
     font-size: 16px;
@@ -112,7 +112,7 @@ class Game {
     }
     setTimeout(() => {
       alert("Game Over! You hit a mine.");
-      resetButton.style.display = 'block'; // Show the reset button
+      resetButton.style.display = 'block'; 
     }, 10);
   }
 
@@ -120,7 +120,7 @@ class Game {
     this.grid = Array.from({ length: GRID_SIZE }, () => Array.from({ length: GRID_SIZE }, () => new Cell()));
     this.placeMines();
     this.gameOver = false;
-    resetButton.style.display = 'none'; // Hide the reset button
+    resetButton.style.display = 'none'; 
     this.draw();
   }
 
@@ -128,9 +128,9 @@ class Game {
     if (this.gameOver) return;
     const cellX = Math.floor(x / CELL_SIZE);
     const cellY = Math.floor(y / CELL_SIZE);
-    if (button === 0) { // Left click
+    if (button === 0) { 
       this.revealCell(cellX, cellY);
-    } else if (button === 2) { // Right click
+    } else if (button === 2) { 
       this.flagCell(cellX, cellY);
     }
     this.draw();
@@ -182,7 +182,7 @@ canvas.addEventListener('mousedown', (e) => {
     game.handleMouseClick(x, y, e.button);
 });
 
-game.draw(); // Draw the initial game state
+game.draw(); 
 </script>
 </body>
 </html>
